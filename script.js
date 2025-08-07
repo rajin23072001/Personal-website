@@ -1,28 +1,40 @@
 // Mobile Navigation Toggle
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('.nav-menu');
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    console.log('Nav toggle found:', navToggle);
+    console.log('Nav menu found:', navMenu);
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    
-    // Animate hamburger menu
-    const bars = navToggle.querySelectorAll('.bar');
-    navToggle.classList.toggle('active');
-    
-    bars.forEach((bar, index) => {
-        if (navToggle.classList.contains('active')) {
-            if (index === 0) {
-                bar.style.transform = 'rotate(-45deg) translate(-5px, 6px)';
-            } else if (index === 1) {
-                bar.style.opacity = '0';
-            } else {
-                bar.style.transform = 'rotate(45deg) translate(-5px, -6px)';
-            }
-        } else {
-            bar.style.transform = 'none';
-            bar.style.opacity = '1';
-        }
-    });
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Nav toggle clicked');
+            
+            navMenu.classList.toggle('active');
+            
+            // Animate hamburger menu
+            const bars = navToggle.querySelectorAll('.bar');
+            navToggle.classList.toggle('active');
+            
+            console.log('Menu active:', navMenu.classList.contains('active'));
+            
+            bars.forEach((bar, index) => {
+                if (navToggle.classList.contains('active')) {
+                    if (index === 0) {
+                        bar.style.transform = 'rotate(-45deg) translate(-5px, 6px)';
+                    } else if (index === 1) {
+                        bar.style.opacity = '0';
+                    } else {
+                        bar.style.transform = 'rotate(45deg) translate(-5px, -6px)';
+                    }
+                } else {
+                    bar.style.transform = 'none';
+                    bar.style.opacity = '1';
+                }
+            });
+        });
+    }
 });
 
 // Close mobile menu when clicking on nav links
@@ -59,18 +71,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 
-// Add scroll effect to header
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
-    
-    if (window.scrollY > 100) {
-        header.style.background = 'rgba(41, 41, 41, 0.98)';
-        header.style.borderBottom = '1px solid rgba(68, 68, 68, 0.8)';
-    } else {
-        header.style.background = 'rgba(41, 41, 41, 0.95)';
-        header.style.borderBottom = '1px solid #444444';
-    }
-});
 
 // Intersection Observer for animations
 const observerOptions = {
