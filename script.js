@@ -126,82 +126,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Form handling with SMTP.js
-const contactForm = document.querySelector('#contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
-        
-        // Basic validation
-        if (!name || !email || !subject || !message) {
-            showMessage('Please fill in all fields.', 'error');
-            return;
-        }
-        
-        if (!isValidEmail(email)) {
-            showMessage('Please enter a valid email address.', 'error');
-            return;
-        }
-        
-        // Disable submit button and show loading state
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-        
-        // Send email using SMTP.js
-        Email.send({
-            Host: "http://smtp.elasticemail.com/", // Replace with your SMTP host
-            Username: "rajinwork23@gmail.com", // Replace with your email
-            Password: "777DCBC22A03D60E9ABCC8518732397C1D1C", // Replace with your SMTP password
-            To: 'rajinwork23@gmail.com', // Replace with your email
-            From: "rajinwork23@gmail.com",
-            Subject: `Portfolio Contact: ${subject}`,
-            Body: `
-                <h3>New Contact Form Submission</h3>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Subject:</strong> ${subject}</p>
-                <p><strong>Message:</strong></p>
-                <p>${message.replace(/\n/g, '<br>')}</p>
-            `
-        }).then(function(response) {
-            showMessage('Thank you for your message! I\'ll get back to you soon.', 'success');
-            contactForm.reset();
-        }).catch(function(error) {
-            showMessage('Failed to send message. Please try again.', 'error');
-            console.error('Error:', error);
-        }).finally(function() {
-            // Re-enable submit button
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-        });
-    });
-}
-
-// Email validation helper
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// Show message function for form feedback
-function showMessage(message, type) {
-    const messageDiv = document.getElementById('responseMessage');
-    messageDiv.textContent = message;
-    messageDiv.className = `form-message ${type}`;
-    
-    // Hide message after 5 seconds
-    setTimeout(() => {
-        messageDiv.textContent = '';
-        messageDiv.className = '';
-    }, 5000);
-}
 
 // Interactive code snippet
 document.addEventListener('DOMContentLoaded', () => {
@@ -523,3 +447,24 @@ document.querySelectorAll('.project-card').forEach(card => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
     });
 });
+
+// Contact form submission handling
+const form = document.querySelector('form');
+Email.send({
+    Host : "smtp.elasticemail.com",
+    Username : "rajinwork23@gmail.com",
+    Password : "CB1B65D3C4324A690C06EBE1A604AACF92F9",
+    To : 'rajinwork23@gmail.com',
+    From : "rajinwork23@gmail.com",
+    Subject : "This is the subject",
+    Body : "And this is the body"
+}).then(
+  message => alert(message)
+);
+
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  sendEmail();
+});
+
